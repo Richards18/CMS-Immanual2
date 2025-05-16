@@ -1,0 +1,26 @@
+export const FONTS = {
+  Poppins_Bold: 'Poppins-Bold',
+  Poppins_SemiBold: 'Poppins-SemiBold',
+  Poppins_ExtraBold: 'Poppins-ExtraBold',
+  Poppins_Medium: 'Poppins-Medium',
+  Poppins_Regular: 'Poppins-Regular',
+  Poppins_Light: 'Poppins_Light',
+  Poppins_Thin: 'Poppins_Thin',
+  Poppins_Italic: 'Poppins-Italic',
+
+  DMSans_Bold: 'DMSans-Bold',
+  DMSans_SemiBold: 'DMSans-SemiBold',
+  DMSans_ExtraBold: 'DMSans-ExtraBold',
+  DMSans_Medium: 'DMSans-Medium',
+  DMSans_Regular: 'DMSans-Regular',
+  DMSans_Light: 'DMSans-Light',
+  DMSans_Thin: 'DMSans-Thin',
+  DMSans_Italic: 'DMSans-Italic',
+
+  Roboto_SemiBold: 'Roboto-SemiBold',
+  Roboto_Medium: 'Roboto-Medium',
+  Roboto_Regular: 'Roboto-Regular',
+  Roboto_Light: 'Roboto-Light',
+  Roboto_Thin: 'Roboto-Thin',
+  Roboto_Italic: 'Roboto-Italic',
+};
