@@ -4,15 +4,14 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
-  Image,
   StatusBar,
-  ScrollView,
   Modal,
   TouchableWithoutFeedback,
   FlatList,
   Dimensions,
   ActivityIndicator,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { FONT_SIZE } from '../../../../Constants/FontSize';
@@ -26,102 +25,23 @@ const HemaJohn: FC = () => {
   const navigation = useNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [selectedImage, setSelectedImage] = useState<{ uri: string } | null>(null);
   const [loadingImage, setLoadingImage] = useState(true);
 
-  const imageSources = [
-    {
-      uri: HEMA_JOHN.HEMA_JOHN1,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN2,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN3,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN4,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN5,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN6,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN7,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN8,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN9,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN10,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN11,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN12,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN13,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN14,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN15,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN16,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN17,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN18,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN19,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN20,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN21,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN22,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN23,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN24,
-    },
-    {
-      uri: HEMA_JOHN.HEMA_JOHN25,
-    },
+  const imageSources: { uri: string }[] = Object.values(HEMA_JOHN).map(uri => ({ uri }));
 
-  ];
-
-  // Handle image click
-  const openModal = (image: any) => {
-    console.log('Selected Image:', image); // Debugging: Log selected image
+  const openModal = (image: { uri: string }) => {
     setSelectedImage(image);
+    setLoadingImage(true);
     setModalVisible(true);
   };
 
-  // Close the modal
   const closeModal = () => {
     setModalVisible(false);
     setSelectedImage(null);
   };
 
-  const renderImageItem = ({ item }: { item: any }) => (
+  const renderImageItem = ({ item }: { item: { uri: string } }) => (
     <TouchableOpacity
       onPress={() => openModal(item)}
       style={{
@@ -131,16 +51,17 @@ const HemaJohn: FC = () => {
         overflow: 'hidden',
         backgroundColor: COLORS.TextInput,
       }}>
-      <Image
-        source={item}
+      <FastImage
+        source={{ uri: item.uri, priority: FastImage.priority.normal }}
         style={{ width: '100%', height: 150 }}
-        resizeMode="cover"
+        resizeMode={FastImage.resizeMode.cover}
       />
     </TouchableOpacity>
   );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.White }}>
+      <StatusBar barStyle="dark-content" />
       <Header title="ஹேமா ஜான் இசை நிகழ்ச்சி 2023" />
 
       {/* Title */}
@@ -189,14 +110,14 @@ const HemaJohn: FC = () => {
                 {loadingImage && (
                   <ActivityIndicator size="large" color={COLORS.PrimaryColor} />
                 )}
-                <Image
-                  source={selectedImage}
+                <FastImage
+                  source={{ uri: selectedImage.uri, priority: FastImage.priority.high }}
                   style={{
                     width: '90%',
                     height: '80%',
                     borderRadius: 10,
                   }}
-                  resizeMode="contain"
+                  resizeMode={FastImage.resizeMode.contain}
                   onLoadEnd={() => setLoadingImage(false)}
                 />
               </>
@@ -209,4 +130,5 @@ const HemaJohn: FC = () => {
     </SafeAreaView>
   );
 };
+
 export default HemaJohn;

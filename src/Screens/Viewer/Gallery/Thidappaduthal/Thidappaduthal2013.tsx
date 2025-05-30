@@ -4,31 +4,32 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
-  StatusBar,
+  Image,
   Modal,
   TouchableWithoutFeedback,
   FlatList,
   Dimensions,
   ActivityIndicator,
 } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { FONT_SIZE } from '../../../../Constants/FontSize';
 import { COLORS } from '../../../../Constants/Colors';
 import Header from '../../../../Header/Header';
-import { WOMENS_FESTIVAL } from '../../../../Constants/Constant';
+import { THIDAPPADUTHAL_SERVICE_2013 } from '../../../../Constants/Constant';
+
 
 const screenWidth = Dimensions.get('window').width;
 
-const WomensFestival: FC = () => {
+const Thidappaduthal2013: FC = () => {
   const navigation = useNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState<{ uri: string } | null>(null);
   const [loadingImage, setLoadingImage] = useState(true);
 
-  const imageSources: { uri: string }[] = Object.values(WOMENS_FESTIVAL).map(uri => ({ uri }));
+  // Dynamically create array of image sources from SILVER_JUBILEE object values
+  const imageSources = Object.values(THIDAPPADUTHAL_SERVICE_2013).map(uri => ({ uri }));
 
   const openModal = (image: { uri: string }) => {
     setSelectedImage(image);
@@ -51,20 +52,21 @@ const WomensFestival: FC = () => {
         overflow: 'hidden',
         backgroundColor: COLORS.TextInput,
       }}>
-      <FastImage
-        source={{ uri: item.uri, priority: FastImage.priority.normal }}
+      <Image
+        source={item}
         style={{ width: '100%', height: 150 }}
-        resizeMode={FastImage.resizeMode.cover}
+        resizeMode="cover"
       />
     </TouchableOpacity>
   );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.White }}>
-      <StatusBar barStyle="dark-content" />
-      <Header title="பெண்கள் பண்டிகை 2023" screen="WOMENS_FEST" />
+      <Header
+        title="திடப்படுத்தல் ஆராதனை 2013"
+        
+      />
 
-      {/* Title */}
       <View style={{ padding: 16 }}>
         <Text
           style={{
@@ -76,7 +78,6 @@ const WomensFestival: FC = () => {
         </Text>
       </View>
 
-      {/* Grid of Images */}
       <FlatList
         data={imageSources}
         renderItem={renderImageItem}
@@ -85,10 +86,9 @@ const WomensFestival: FC = () => {
         contentContainerStyle={{ paddingHorizontal: 8, paddingBottom: 20 }}
       />
 
-      {/* Image Preview Modal */}
       <Modal
         visible={modalVisible}
-        transparent={true}
+        transparent
         animationType="fade"
         onRequestClose={closeModal}>
         <TouchableWithoutFeedback onPress={closeModal}>
@@ -110,14 +110,14 @@ const WomensFestival: FC = () => {
                 {loadingImage && (
                   <ActivityIndicator size="large" color={COLORS.White} />
                 )}
-                <FastImage
-                  source={{ uri: selectedImage.uri, priority: FastImage.priority.high }}
+                <Image
+                  source={selectedImage}
                   style={{
                     width: '90%',
                     height: '80%',
                     borderRadius: 10,
                   }}
-                  resizeMode={FastImage.resizeMode.contain}
+                  resizeMode="contain"
                   onLoadEnd={() => setLoadingImage(false)}
                 />
               </>
@@ -131,4 +131,4 @@ const WomensFestival: FC = () => {
   );
 };
 
-export default WomensFestival;
+export default Thidappaduthal2013;

@@ -5,8 +5,6 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Image,
-  StatusBar,
-  ScrollView,
   Modal,
   TouchableWithoutFeedback,
   FlatList,
@@ -18,145 +16,22 @@ import { useNavigation } from '@react-navigation/native';
 import { FONT_SIZE } from '../../../../Constants/FontSize';
 import { COLORS } from '../../../../Constants/Colors';
 import Header from '../../../../Header/Header';
-import { XMAS_2012 } from '../../../../Constants/Constant';
+import { NEW_YEAR_2018 } from '../../../../Constants/Constant';
+
 
 const screenWidth = Dimensions.get('window').width;
 
-const Xmas2012: FC = () => {
+const NewYear2018: FC = () => {
   const navigation = useNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [selectedImage, setSelectedImage] = useState<{ uri: string } | null>(null);
   const [loadingImage, setLoadingImage] = useState(true);
 
-  const imageSources = [
-    {
-      uri: XMAS_2012.XMAS_2012_1,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_2,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_3,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_4,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_5,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_6,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_7,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_8,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_9,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_10,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_11,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_12,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_13,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_14,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_15,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_16,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_17,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_18,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_19,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_20,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_21,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_22,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_23,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_24,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_25,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_26,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_27,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_28,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_29,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_30,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_31,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_32,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_33,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_34,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_35,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_36,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_37,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_38,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_39,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_40,
-    },
-    {
-      uri: XMAS_2012.XMAS_2012_41,
-    },
+  // Dynamically create array of image sources from SILVER_JUBILEE object values
+  const imageSources = Object.values(NEW_YEAR_2018).map(uri => ({ uri }));
 
-  ];
-
-  const openModal = (image: any) => {
+  const openModal = (image: { uri: string }) => {
     setSelectedImage(image);
     setLoadingImage(true);
     setModalVisible(true);
@@ -167,7 +42,7 @@ const Xmas2012: FC = () => {
     setSelectedImage(null);
   };
 
-  const renderImageItem = ({ item }: { item: any }) => (
+  const renderImageItem = ({ item }: { item: { uri: string } }) => (
     <TouchableOpacity
       onPress={() => openModal(item)}
       style={{
@@ -187,9 +62,11 @@ const Xmas2012: FC = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.White }}>
-      <Header title="கிறிஸ்துமஸ் மரவிழா கொண்டாட்டம் 2012" screen="XMAS_2012" />
+      <Header
+        title="புது வருட ஆராதனை 2018"
+        screen='NEW_YEAR_2018'
+      />
 
-      {/* Title */}
       <View style={{ padding: 16 }}>
         <Text
           style={{
@@ -201,7 +78,6 @@ const Xmas2012: FC = () => {
         </Text>
       </View>
 
-      {/* Grid of Images */}
       <FlatList
         data={imageSources}
         renderItem={renderImageItem}
@@ -210,10 +86,9 @@ const Xmas2012: FC = () => {
         contentContainerStyle={{ paddingHorizontal: 8, paddingBottom: 20 }}
       />
 
-      {/* Image Preview Modal */}
       <Modal
         visible={modalVisible}
-        transparent={true}
+        transparent
         animationType="fade"
         onRequestClose={closeModal}>
         <TouchableWithoutFeedback onPress={closeModal}>
@@ -256,4 +131,4 @@ const Xmas2012: FC = () => {
   );
 };
 
-export default Xmas2012;
+export default NewYear2018;

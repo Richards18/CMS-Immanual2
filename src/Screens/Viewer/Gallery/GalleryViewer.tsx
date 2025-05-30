@@ -44,7 +44,7 @@ const GalleryViewer: FC<Props> = ({ navigation }) => {
       title: 'ஹேமா ஜான் இசை நிகழ்ச்சி 2023',
     },
     {
-      screen: SCREENS.BHAJAN_SERMON,
+      screen: SCREENS.BHAJAN_SERMON_2013,
       image: {
         uri: GALLERY_IMAGES.BHAJAN_SERMON,
       },
@@ -65,11 +65,33 @@ const GalleryViewer: FC<Props> = ({ navigation }) => {
       title: 'வைர விழா பூத்தக வெளியீட்டு 2023',
     },
     {
+      screen: SCREENS.PASTOR_HOUSE_DEDICATION,
+      image: {
+        uri: GALLERY_IMAGES.PASTOR_HOUSE_DEDICATION,
+      },
+      title: 'ஊழியர் இல்ல பிரதிஷ்டை விழா',
+    },
+    {
       screen: SCREENS.VBS_2023,
       image: {
         uri: GALLERY_IMAGES.VBS_2023,
       },
       title: 'பவள விழா மண்டபம் தரப்பு மற்றும் V.B.S கலை நிகழ்ச்சிகள் 2023',
+    },
+    {
+      screen: SCREENS.NEW_YEAR_2018,
+      image: {
+        uri: GALLERY_IMAGES.NEW_YEAR_2018,
+      },
+      title: 'புது வருட ஆராதனை 2018',
+    },
+    
+    {
+      screen: SCREENS.XMAS_SERVICE_2018,
+      image: {
+        uri: GALLERY_IMAGES.XMAS_SERVICE_2018,
+      },
+      title: 'கிறிஸ்துமஸ் சிறப்பு ஆராதனை 2018',
     },
     {
       screen: SCREENS.XMAS_2018,
@@ -79,6 +101,27 @@ const GalleryViewer: FC<Props> = ({ navigation }) => {
       title: 'கிறிஸ்துமஸ் மரவிழா கொண்டாட்டம் 2018',
     },
     {
+      screen: SCREENS.HILL_PEOPLE,
+      image: {
+        uri: GALLERY_IMAGES.HILLS_PEOPLE,
+      },
+      title: 'மலை வாழ் மக்கள் சுற்றுப்பயணம் 2014',
+    },
+    {
+      screen: SCREENS.XMAS_2013,
+      image: {
+        uri: GALLERY_IMAGES.XMAS_2013,
+      },
+      title: 'மரம் நடும் விழா மற்றும் கிறிஸ்துமஸ் மரம் கொண்டாட்டம் 2013',
+    },
+    {
+      screen: SCREENS.THIDAPPADUTHAL_SERVICE_2013,
+      image: {
+        uri: GALLERY_IMAGES.THIDAPPADUTHAL_SERVICE_2013,
+      },
+      title: 'திடப்படுத்தல் ஆராதனை 2013',
+    },
+    {
       screen: SCREENS.XMAS_2012,
       image: {
         uri: GALLERY_IMAGES.XMAS_2012,
@@ -86,11 +129,32 @@ const GalleryViewer: FC<Props> = ({ navigation }) => {
       title: 'கிறிஸ்துமஸ் மரவிழா கொண்டாட்டம் 2012',
     },
     {
-      screen: SCREENS.HILL_PEOPLE,
+      screen: SCREENS.NEW_TEMPLE_CEREMONY,
       image: {
-        uri: GALLERY_IMAGES.HILLS_PEOPLE,
+        uri: GALLERY_IMAGES.NEW_TEMPLE_DEDICATION,
       },
-      title: 'மலை வாழ் மக்கள் சுற்றுப்பயணம் 2014',
+      title: 'புதிய ஆலயம் பிரதிஷ்டை விழா',
+    },
+    {
+      screen: SCREENS.TEMPLE_TOWER_CEREMONY,
+      image: {
+        uri: GALLERY_IMAGES.TEMPLE_TOWER_CEREMONY,
+      },
+      title: 'கோவில் கோபுர அடிக்கல் நடு விழா',
+    },
+    {
+      screen: SCREENS.GOLDEN_JUBILEE,
+      image: {
+        uri: GALLERY_IMAGES.GOLDEN_JUBILEE,
+      },
+      title: 'பொன் விழா படங்கள்',
+    },
+    {
+      screen: SCREENS.PUSHPARAJ,
+      image: {
+        uri: GALLERY_IMAGES.PUSHPARAJ_FN,
+      },
+      title: 'டாக்டர் புஷ்பராஜ் கூட்டம்',
     },
     {
       screen: SCREENS.SILVER_JUBILEE,
@@ -99,6 +163,20 @@ const GalleryViewer: FC<Props> = ({ navigation }) => {
       },
       title: '25 ஆண்டு வெள்ளி விழா கொண்டாட்டம்',
     },
+    // {
+    //   screen: SCREENS.TEMPLE_TOWER_CEREMONY,
+    //   image: {
+    //     uri: GALLERY_IMAGES.TEMPLE_TOWER_CEREMONY,
+    //   },
+    //   title: '25 ஆண்டு வெள்ளி விழா கொண்டாட்டம்',
+    // },
+    // {
+    //   screen: SCREENS.TEMPLE_TOWER_CEREMONY,
+    //   image: {
+    //     uri: GALLERY_IMAGES.TEMPLE_TOWER_CEREMONY,
+    //   },
+    //   title: '25 ஆண்டு வெள்ளி விழா கொண்டாட்டம்',
+    // },
   ];
 
   return (
@@ -111,20 +189,20 @@ const GalleryViewer: FC<Props> = ({ navigation }) => {
       {isLoading ? (
         <View style={{ flex: 1, padding: 16 }}>
           <SkeletonPlaceholder borderRadius={10}>
-            {[...Array(6)].map((_, index) => (
-              <View key={index} style={{ marginBottom: 16 }}>
-                <View style={{ width: '100%', height: 180, borderRadius: 10 }} />
-                <View
-                  style={{
-                    marginTop: 10,
-                    height: 20,
-                    width: '70%',
-                    alignSelf: 'center',
-                    borderRadius: 4,
-                  }}
-                />
-              </View>
-            ))}
+            <SkeletonPlaceholder.Item flexDirection="column">
+              {[...Array(6)].map((_, index) => (
+                <SkeletonPlaceholder.Item key={index} marginBottom={16}>
+                  <SkeletonPlaceholder.Item width="100%" height={180} borderRadius={10} />
+                  <SkeletonPlaceholder.Item
+                    marginTop={10}
+                    height={20}
+                    width="70%"
+                    alignSelf="center"
+                    borderRadius={4}
+                  />
+                </SkeletonPlaceholder.Item>
+              ))}
+            </SkeletonPlaceholder.Item>
           </SkeletonPlaceholder>
         </View>
       ) : (

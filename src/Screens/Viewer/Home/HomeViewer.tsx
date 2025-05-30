@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   Linking,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { COLORS } from '../../../Constants/Colors';
 import { FONT_SIZE } from '../../../Constants/FontSize';
 import WorshipOrders from '../../../Modal/WorshipOrders';
@@ -18,11 +19,11 @@ import UpcomingPrayers from '../../../Modal/UpcomingPrayers';
 import HistoryOfChurch from '../../../Modal/HistoryOfChurch';
 import ImportantEvents from '../../../Modal/ImportantEvents';
 import BirthdayWish from '../../../Modal/BirthdayWish';
-import PhotoGallery from '../../../Modal/PhotoGallery';
 import DonationModal from '../../../Modal/Donation';
 import WeddingWish from '../../../Modal/WeddingWish';
 import { useTranslation } from 'react-i18next';
-import i18next from 'i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 interface Props {
   renderMenuIcon: () => void;
@@ -31,6 +32,20 @@ interface Props {
 
 const HomeViewer: FC<Props> = props => {
   const { t } = useTranslation();
+
+  const [bibleVerse, setBibleVerse] = useState<string | null>(null);
+  const [showVerse, setShowVerse] = useState<boolean>(false);
+
+  useEffect(() => {
+    const loadVerse = async () => {
+      const verse = await AsyncStorage.getItem('bibleVerse');
+      if (verse) {
+        setBibleVerse(verse);
+      }
+    };
+
+    loadVerse();
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.White }}>
@@ -64,6 +79,77 @@ const HomeViewer: FC<Props> = props => {
       <ScrollView
         style={{ flex: 1, paddingHorizontal: 16 }}
         contentContainerStyle={{ paddingBottom: 40 }}>
+
+        {bibleVerse && (
+          <View
+            style={{
+              marginTop: 20,
+              marginHorizontal: 10,
+              borderRadius: 16,
+              backgroundColor: '#FFF8F0',
+              borderWidth: 1,
+              borderColor: '#FFE0B2',
+              overflow: 'hidden',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 3 },
+              shadowOpacity: 0.1,
+              shadowRadius: 6,
+              elevation: 4,
+            }}
+          >
+            <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                paddingVertical: 14,
+                backgroundColor: '#FFEBCD',
+              }}
+              onPress={() => setShowVerse(!showVerse)}
+              activeOpacity={0.8}
+            >
+              <FontAwesome5
+                name="bible"
+                size={20}
+                color={COLORS.PrimaryColor}
+                style={{ marginRight: 10 }}
+              />
+              <Text
+                style={{
+                  fontSize: FONT_SIZE.font_16,
+                  color: COLORS.PrimaryColor,
+                  fontWeight: '700',
+                }}
+              >
+                இன்றைய வேத வசனம்
+              </Text>
+              <FontAwesome5
+                name={showVerse ? 'chevron-up' : 'chevron-down'}
+                size={20}
+                color={COLORS.PrimaryColor}
+                style={{ marginLeft: 8 }}
+              />
+            </TouchableOpacity>
+
+            {showVerse && (
+              <View style={{ paddingHorizontal: 20, paddingVertical: 18 }}>
+                <Text
+                  style={{
+                    fontSize: FONT_SIZE.font_15,
+                    color: '#5D4037',
+                    fontStyle: 'italic',
+                    lineHeight: 24,
+                    textAlign: 'center',
+                  }}
+                >
+                  “{bibleVerse}”
+                </Text>
+              </View>
+            )}
+          </View>
+        )}
+
+
         {/* Welcome Text */}
         <View style={{ marginTop: 20 }}>
           <Text

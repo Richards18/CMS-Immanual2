@@ -4,114 +4,34 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
-  Image,
   StatusBar,
-  ScrollView,
   Modal,
   TouchableWithoutFeedback,
   FlatList,
   Dimensions,
   ActivityIndicator,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
-import { FONT_SIZE } from '../../../../Constants/FontSize';
-import { COLORS } from '../../../../Constants/Colors';
-import Header from '../../../../Header/Header';
-import { XMAS_2018 } from '../../../../Constants/Constant';
+import { FONT_SIZE } from '../../../../../Constants/FontSize';
+import { COLORS } from '../../../../../Constants/Colors';
+import Header from '../../../../../Header/Header';
+import { XMAS_2012 } from '../../../../../Constants/Constant';
 
 const screenWidth = Dimensions.get('window').width;
 
-const Xmas2018: FC = () => {
+const Xmas2012: FC = () => {
   const navigation = useNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [selectedImage, setSelectedImage] = useState<{ uri: string } | null>(null);
   const [loadingImage, setLoadingImage] = useState(true);
 
-  const imageSources = [
-    {
-      uri: XMAS_2018.XMAS_2018_1,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_2,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_3,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_4,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_5,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_6,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_7,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_8,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_9,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_10,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_11,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_12,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_13,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_14,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_15,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_16,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_17,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_18,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_19,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_20,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_21,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_22,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_23,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_24,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_25,
-    },
-    {
-      uri: XMAS_2018.XMAS_2018_26,
-    },
+  // Dynamically map the images
+  const imageSources: { uri: string }[] = Object.values(XMAS_2012).map(uri => ({ uri }));
 
-  ];
-
-  const openModal = (image: any) => {
+  const openModal = (image: { uri: string }) => {
     setSelectedImage(image);
     setLoadingImage(true);
     setModalVisible(true);
@@ -122,7 +42,7 @@ const Xmas2018: FC = () => {
     setSelectedImage(null);
   };
 
-  const renderImageItem = ({ item }: { item: any }) => (
+  const renderImageItem = ({ item }: { item: { uri: string } }) => (
     <TouchableOpacity
       onPress={() => openModal(item)}
       style={{
@@ -132,17 +52,18 @@ const Xmas2018: FC = () => {
         overflow: 'hidden',
         backgroundColor: COLORS.TextInput,
       }}>
-      <Image
+      <FastImage
         source={item}
         style={{ width: '100%', height: 150 }}
-        resizeMode="cover"
+        resizeMode={FastImage.resizeMode.cover}
       />
     </TouchableOpacity>
   );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.White }}>
-      <Header title="கிறிஸ்துமஸ் மரவிழா கொண்டாட்டம் 2018" screen="XMAS_2018" />
+      <StatusBar barStyle="dark-content" />
+      <Header title="கிறிஸ்துமஸ் மரவிழா கொண்டாட்டம் 2012" screen="XMAS_2012" />
 
       {/* Title */}
       <View style={{ padding: 16 }}>
@@ -162,6 +83,8 @@ const Xmas2018: FC = () => {
         renderItem={renderImageItem}
         keyExtractor={(_, index) => index.toString()}
         numColumns={2}
+        initialNumToRender={10}
+        removeClippedSubviews={true}
         contentContainerStyle={{ paddingHorizontal: 8, paddingBottom: 20 }}
       />
 
@@ -190,14 +113,14 @@ const Xmas2018: FC = () => {
                 {loadingImage && (
                   <ActivityIndicator size="large" color={COLORS.White} />
                 )}
-                <Image
+                <FastImage
                   source={selectedImage}
                   style={{
                     width: '90%',
                     height: '80%',
                     borderRadius: 10,
                   }}
-                  resizeMode="contain"
+                  resizeMode={FastImage.resizeMode.contain}
                   onLoadEnd={() => setLoadingImage(false)}
                 />
               </>
@@ -211,4 +134,4 @@ const Xmas2018: FC = () => {
   );
 };
 
-export default Xmas2018;
+export default Xmas2012;

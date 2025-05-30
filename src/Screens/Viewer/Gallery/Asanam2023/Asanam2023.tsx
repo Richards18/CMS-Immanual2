@@ -4,15 +4,14 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
-  Image,
   StatusBar,
-  ScrollView,
   Modal,
   TouchableWithoutFeedback,
   FlatList,
   Dimensions,
   ActivityIndicator,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { FONT_SIZE } from '../../../../Constants/FontSize';
@@ -26,73 +25,13 @@ const Asanam2023: FC = () => {
   const navigation = useNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [selectedImage, setSelectedImage] = useState<{ uri: string } | null>(null);
   const [loadingImage, setLoadingImage] = useState(true);
 
-  const imageSources = [
-    {
-      uri: ASANAM_2023.ASANAM_2023_1,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_2,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_3,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_4,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_5,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_6,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_7,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_8,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_9,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_10,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_11,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_12,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_13,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_14,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_15,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_16,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_17,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_18,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_19,
-    },
-    {
-      uri: ASANAM_2023.ASANAM_2023_20,
-    },
-  ];
+  // Convert constant object to array of uri objects
+  const imageSources = Object.values(ASANAM_2023).map(uri => ({ uri }));
 
-  const openModal = (image: any) => {
+  const openModal = (image: { uri: string }) => {
     setSelectedImage(image);
     setLoadingImage(true);
     setModalVisible(true);
@@ -103,7 +42,7 @@ const Asanam2023: FC = () => {
     setSelectedImage(null);
   };
 
-  const renderImageItem = ({ item }: { item: any }) => (
+  const renderImageItem = ({ item }: { item: { uri: string } }) => (
     <TouchableOpacity
       onPress={() => openModal(item)}
       style={{
@@ -113,16 +52,17 @@ const Asanam2023: FC = () => {
         overflow: 'hidden',
         backgroundColor: COLORS.TextInput,
       }}>
-      <Image
-        source={item}
+      <FastImage
+        source={{ uri: item.uri, priority: FastImage.priority.normal }}
         style={{ width: '100%', height: 150 }}
-        resizeMode="cover"
+        resizeMode={FastImage.resizeMode.cover}
       />
     </TouchableOpacity>
   );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.White }}>
+      <StatusBar barStyle="dark-content" />
       <Header title="பிரதிஷ்டை மற்றும் அசன பண்டிகை 2023" screen="ASANAM_2023" />
 
       {/* Title */}
@@ -171,14 +111,14 @@ const Asanam2023: FC = () => {
                 {loadingImage && (
                   <ActivityIndicator size="large" color={COLORS.White} />
                 )}
-                <Image
-                  source={selectedImage}
+                <FastImage
+                  source={{ uri: selectedImage.uri, priority: FastImage.priority.high }}
                   style={{
                     width: '90%',
                     height: '80%',
                     borderRadius: 10,
                   }}
-                  resizeMode="contain"
+                  resizeMode={FastImage.resizeMode.contain}
                   onLoadEnd={() => setLoadingImage(false)}
                 />
               </>

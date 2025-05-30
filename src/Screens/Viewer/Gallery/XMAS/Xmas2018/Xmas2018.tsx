@@ -14,21 +14,22 @@ import {
 import FastImage from 'react-native-fast-image';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
-import { FONT_SIZE } from '../../../../Constants/FontSize';
-import { COLORS } from '../../../../Constants/Colors';
-import Header from '../../../../Header/Header';
-import { WOMENS_FESTIVAL } from '../../../../Constants/Constant';
+import { FONT_SIZE } from '../../../../../Constants/FontSize';
+import { COLORS } from '../../../../../Constants/Colors';
+import Header from '../../../../../Header/Header';
+import { XMAS_2018 } from '../../../../../Constants/Constant';
 
 const screenWidth = Dimensions.get('window').width;
 
-const WomensFestival: FC = () => {
+const Xmas2018: FC = () => {
   const navigation = useNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState<{ uri: string } | null>(null);
   const [loadingImage, setLoadingImage] = useState(true);
 
-  const imageSources: { uri: string }[] = Object.values(WOMENS_FESTIVAL).map(uri => ({ uri }));
+  // Convert the object to an array of { uri: string }
+  const imageSources: { uri: string }[] = Object.values(XMAS_2018).map(uri => ({ uri }));
 
   const openModal = (image: { uri: string }) => {
     setSelectedImage(image);
@@ -52,7 +53,7 @@ const WomensFestival: FC = () => {
         backgroundColor: COLORS.TextInput,
       }}>
       <FastImage
-        source={{ uri: item.uri, priority: FastImage.priority.normal }}
+        source={item}
         style={{ width: '100%', height: 150 }}
         resizeMode={FastImage.resizeMode.cover}
       />
@@ -62,7 +63,7 @@ const WomensFestival: FC = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.White }}>
       <StatusBar barStyle="dark-content" />
-      <Header title="பெண்கள் பண்டிகை 2023" screen="WOMENS_FEST" />
+      <Header title="கிறிஸ்துமஸ் மரவிழா கொண்டாட்டம் 2018" screen="XMAS_2018" />
 
       {/* Title */}
       <View style={{ padding: 16 }}>
@@ -82,6 +83,8 @@ const WomensFestival: FC = () => {
         renderItem={renderImageItem}
         keyExtractor={(_, index) => index.toString()}
         numColumns={2}
+        initialNumToRender={6}
+        removeClippedSubviews={true}
         contentContainerStyle={{ paddingHorizontal: 8, paddingBottom: 20 }}
       />
 
@@ -111,7 +114,7 @@ const WomensFestival: FC = () => {
                   <ActivityIndicator size="large" color={COLORS.White} />
                 )}
                 <FastImage
-                  source={{ uri: selectedImage.uri, priority: FastImage.priority.high }}
+                  source={selectedImage}
                   style={{
                     width: '90%',
                     height: '80%',
@@ -131,4 +134,4 @@ const WomensFestival: FC = () => {
   );
 };
 
-export default WomensFestival;
+export default Xmas2018;

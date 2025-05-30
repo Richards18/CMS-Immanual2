@@ -4,15 +4,14 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
-  Image,
   StatusBar,
-  ScrollView,
   Modal,
   TouchableWithoutFeedback,
   FlatList,
   Dimensions,
   ActivityIndicator,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { FONT_SIZE } from '../../../../Constants/FontSize';
@@ -26,46 +25,13 @@ const DiamondJubilee: FC = () => {
   const navigation = useNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [selectedImage, setSelectedImage] = useState<{ uri: string } | null>(null);
   const [loadingImage, setLoadingImage] = useState(true);
 
-  const imageSources = [
-    {
-      uri: DIAMOND_JUBILEE.DIAMOND_JUBILEE1,
-    },
-    {
-      uri: DIAMOND_JUBILEE.DIAMOND_JUBILEE2,
-    },
-    {
-      uri: DIAMOND_JUBILEE.DIAMOND_JUBILEE3,
-    },
-    {
-      uri: DIAMOND_JUBILEE.DIAMOND_JUBILEE4,
-    },
-    {
-      uri: DIAMOND_JUBILEE.DIAMOND_JUBILEE5,
-    },
-    {
-      uri: DIAMOND_JUBILEE.DIAMOND_JUBILEE6,
-    },
-    {
-      uri: DIAMOND_JUBILEE.DIAMOND_JUBILEE7,
-    },
-    {
-      uri: DIAMOND_JUBILEE.DIAMOND_JUBILEE8,
-    },
-    {
-      uri: DIAMOND_JUBILEE.DIAMOND_JUBILEE9,
-    },
-    {
-      uri: DIAMOND_JUBILEE.DIAMOND_JUBILEE10,
-    },
-    {
-      uri: DIAMOND_JUBILEE.DIAMOND_JUBILEE11,
-    },
-  ];
+  // Convert DIAMOND_JUBILEE constants object into array of {uri} objects
+  const imageSources = Object.values(DIAMOND_JUBILEE).map(uri => ({ uri }));
 
-  const openModal = (image: any) => {
+  const openModal = (image: { uri: string }) => {
     setSelectedImage(image);
     setLoadingImage(true);
     setModalVisible(true);
@@ -76,7 +42,7 @@ const DiamondJubilee: FC = () => {
     setSelectedImage(null);
   };
 
-  const renderImageItem = ({ item }: { item: any }) => (
+  const renderImageItem = ({ item }: { item: { uri: string } }) => (
     <TouchableOpacity
       onPress={() => openModal(item)}
       style={{
@@ -86,50 +52,17 @@ const DiamondJubilee: FC = () => {
         overflow: 'hidden',
         backgroundColor: COLORS.TextInput,
       }}>
-      <Image
-        source={item}
+      <FastImage
+        source={{ uri: item.uri, priority: FastImage.priority.normal }}
         style={{ width: '100%', height: 150 }}
-        resizeMode="cover"
+        resizeMode={FastImage.resizeMode.cover}
       />
     </TouchableOpacity>
   );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.White }}>
-      {/* <StatusBar
-        backgroundColor={COLORS.PrimaryColor}
-        barStyle="light-content"
-      />
-
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          backgroundColor: COLORS.PrimaryColor,
-          paddingHorizontal: 10,
-          height: 80,
-          borderBottomLeftRadius: 20,
-          borderBottomRightRadius: 20,
-          elevation: 4,
-        }}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{padding: 4, marginRight: 15}}>
-          <Ionicons name="arrow-back" size={24} color={COLORS.White} />
-        </TouchableOpacity>
-        <Text
-          style={{
-            fontSize: FONT_SIZE.font_16,
-            fontWeight: 'bold',
-            color: COLORS.White,
-            flex: 1,
-            textAlign: 'center',
-            marginLeft: -20,
-          }}>
-          வைர விழா புத்தக வெளியீட்டு 2023
-        </Text>
-      </View> */}
-
+      <StatusBar barStyle="dark-content" />
       <Header
         title="வைர விழா புத்தக வெளியீட்டு 2023"
         screen="DIAMOND_JUBILEE"
@@ -181,14 +114,14 @@ const DiamondJubilee: FC = () => {
                 {loadingImage && (
                   <ActivityIndicator size="large" color={COLORS.White} />
                 )}
-                <Image
-                  source={selectedImage}
+                <FastImage
+                  source={{ uri: selectedImage.uri, priority: FastImage.priority.high }}
                   style={{
                     width: '90%',
                     height: '80%',
                     borderRadius: 10,
                   }}
-                  resizeMode="contain"
+                  resizeMode={FastImage.resizeMode.contain}
                   onLoadEnd={() => setLoadingImage(false)}
                 />
               </>

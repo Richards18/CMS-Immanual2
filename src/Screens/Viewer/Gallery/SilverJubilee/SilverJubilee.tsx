@@ -5,8 +5,6 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Image,
-  StatusBar,
-  ScrollView,
   Modal,
   TouchableWithoutFeedback,
   FlatList,
@@ -26,41 +24,13 @@ const SilverJubilee: FC = () => {
   const navigation = useNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [selectedImage, setSelectedImage] = useState<{ uri: string } | null>(null);
   const [loadingImage, setLoadingImage] = useState(true);
 
-  const imageSources = [
-    {
-      uri: SILVER_JUBILEE.SILVER_JUBILEE1,
-    },
-    {
-      uri: SILVER_JUBILEE.SILVER_JUBILEE2,
-    },
-    {
-      uri: SILVER_JUBILEE.SILVER_JUBILEE3,
-    },
-    {
-      uri: SILVER_JUBILEE.SILVER_JUBILEE4,
-    },
-    {
-      uri: SILVER_JUBILEE.SILVER_JUBILEE5,
-    },
-    {
-      uri: SILVER_JUBILEE.SILVER_JUBILEE6,
-    },
-    {
-      uri: SILVER_JUBILEE.SILVER_JUBILEE7,
-    },
-    {
-      uri: SILVER_JUBILEE.SILVER_JUBILEE8,
-    },
-    {
-      uri: SILVER_JUBILEE.SILVER_JUBILEE9,
-    },
+  // Dynamically create array of image sources from SILVER_JUBILEE object values
+  const imageSources = Object.values(SILVER_JUBILEE).map(uri => ({ uri }));
 
-  ];
-
-  const openModal = (image: any) => {
+  const openModal = (image: { uri: string }) => {
     setSelectedImage(image);
     setLoadingImage(true);
     setModalVisible(true);
@@ -71,7 +41,7 @@ const SilverJubilee: FC = () => {
     setSelectedImage(null);
   };
 
-  const renderImageItem = ({ item }: { item: any }) => (
+  const renderImageItem = ({ item }: { item: { uri: string } }) => (
     <TouchableOpacity
       onPress={() => openModal(item)}
       style={{
@@ -91,46 +61,11 @@ const SilverJubilee: FC = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.White }}>
-      {/* <StatusBar
-        backgroundColor={COLORS.PrimaryColor}
-        barStyle="light-content"
-      />
-
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          backgroundColor: COLORS.PrimaryColor,
-          paddingHorizontal: 10,
-          height: 80,
-          borderBottomLeftRadius: 20,
-          borderBottomRightRadius: 20,
-          elevation: 4,
-        }}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{padding: 4, marginRight: 15}}>
-          <Ionicons name="arrow-back" size={24} color={COLORS.White} />
-        </TouchableOpacity>
-        <Text
-          style={{
-            fontSize: FONT_SIZE.font_18,
-            fontWeight: 'bold',
-            color: COLORS.White,
-            flex: 1,
-            textAlign: 'center',
-            marginLeft: -20,
-          }}>
-          25 ஆண்டு வெள்ளி விழா கொண்டாட்டம்
-        </Text>
-      </View> */}
-
       <Header
         title="25 ஆண்டு வெள்ளி விழா கொண்டாட்டம்"
         screen="SILVER_JUBILEE"
       />
 
-      {/* Title */}
       <View style={{ padding: 16 }}>
         <Text
           style={{
@@ -142,7 +77,6 @@ const SilverJubilee: FC = () => {
         </Text>
       </View>
 
-      {/* Grid of Images */}
       <FlatList
         data={imageSources}
         renderItem={renderImageItem}
@@ -151,10 +85,9 @@ const SilverJubilee: FC = () => {
         contentContainerStyle={{ paddingHorizontal: 8, paddingBottom: 20 }}
       />
 
-      {/* Image Preview Modal */}
       <Modal
         visible={modalVisible}
-        transparent={true}
+        transparent
         animationType="fade"
         onRequestClose={closeModal}>
         <TouchableWithoutFeedback onPress={closeModal}>

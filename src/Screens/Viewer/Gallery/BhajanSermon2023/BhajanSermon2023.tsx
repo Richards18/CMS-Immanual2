@@ -15,14 +15,15 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
-import { FONT_SIZE } from '../../../../Constants/FontSize';
+import { BHAJAN_SERMON } from '../../../../Constants/Constant';
 import { COLORS } from '../../../../Constants/Colors';
 import Header from '../../../../Header/Header';
-import { BHAJAN_SERMON } from '../../../../Constants/Constant';
+import { FONT_SIZE } from '../../../../Constants/FontSize';
+
 
 const screenWidth = Dimensions.get('window').width;
 
-const BhajanSermon: FC = () => {
+const BhajanSermon2013: FC = () => {
   const navigation = useNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -147,4 +148,4 @@ const BhajanSermon: FC = () => {
   );
 };
 
-export default BhajanSermon;
+export default BhajanSermon2013;

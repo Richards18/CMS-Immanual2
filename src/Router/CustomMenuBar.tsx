@@ -68,7 +68,7 @@ const CustomMenuBar: FC<Props> = props => {
           }}
           labelStyle={{
             color: COLORS.PrimaryColor,
-            fontSize: FONT_SIZE.font_16,
+            fontSize: FONT_SIZE.font_15,
           }}
           icon={() => (
             <Icon name="home" size={22} color={COLORS.PrimaryColor} />
@@ -85,7 +85,7 @@ const CustomMenuBar: FC<Props> = props => {
           }}
           labelStyle={{
             color: COLORS.PrimaryColor,
-            fontSize: FONT_SIZE.font_16,
+            fontSize: FONT_SIZE.font_15,
           }}
           icon={() => (
             <Icon name="newspaper" size={22} color={COLORS.PrimaryColor} />
@@ -100,7 +100,7 @@ const CustomMenuBar: FC<Props> = props => {
           onPress={() => { }}
           labelStyle={{
             color: COLORS.PrimaryColor,
-            fontSize: FONT_SIZE.font_16,
+            fontSize: FONT_SIZE.font_15,
           }}
           icon={() => (
             <Icon name="calendar" size={22} color={COLORS.PrimaryColor} />
@@ -117,7 +117,7 @@ const CustomMenuBar: FC<Props> = props => {
           }}
           labelStyle={{
             color: COLORS.PrimaryColor,
-            fontSize: FONT_SIZE.font_16,
+            fontSize: FONT_SIZE.font_15,
           }}
           icon={() => (
             <Icon name="image" size={22} color={COLORS.PrimaryColor} />
@@ -134,7 +134,7 @@ const CustomMenuBar: FC<Props> = props => {
           }}
           labelStyle={{
             color: COLORS.PrimaryColor,
-            fontSize: FONT_SIZE.font_15,
+            fontSize: FONT_SIZE.font_14,
           }}
           icon={() => (
             <FontAwesome5 name="pray" size={23} color={COLORS.PrimaryColor} />
@@ -151,7 +151,7 @@ const CustomMenuBar: FC<Props> = props => {
           }}
           labelStyle={{
             color: COLORS.PrimaryColor,
-            fontSize: FONT_SIZE.font_16,
+            fontSize: FONT_SIZE.font_15,
           }}
           icon={() => (
             <FontAwesome5
@@ -172,7 +172,7 @@ const CustomMenuBar: FC<Props> = props => {
           }}
           labelStyle={{
             color: COLORS.PrimaryColor,
-            fontSize: FONT_SIZE.font_16,
+            fontSize: FONT_SIZE.font_14,
           }}
           icon={() => (
             <Icon name="call" size={22} color={COLORS.PrimaryColor} />
@@ -189,7 +189,7 @@ const CustomMenuBar: FC<Props> = props => {
           }}
           labelStyle={{
             color: COLORS.PrimaryColor,
-            fontSize: FONT_SIZE.font_16,
+            fontSize: FONT_SIZE.font_14,
           }}
           icon={() => (
             <Icon name="language" size={22} color={COLORS.PrimaryColor} />
@@ -229,7 +229,7 @@ const CustomMenuBar: FC<Props> = props => {
                 }}>
                 <Text
                   style={{
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: '600',
                     color: COLORS.PrimaryColor,
                   }}>

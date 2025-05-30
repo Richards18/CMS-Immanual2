@@ -4,15 +4,13 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
-  Image,
-  StatusBar,
-  ScrollView,
   Modal,
   TouchableWithoutFeedback,
   FlatList,
   Dimensions,
   ActivityIndicator,
 } from 'react-native';
+import FastImage from 'react-native-fast-image'; // optional
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { FONT_SIZE } from '../../../../Constants/FontSize';
@@ -26,85 +24,13 @@ const VBS2023: FC = () => {
   const navigation = useNavigation();
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [selectedImage, setSelectedImage] = useState<{ uri: string } | null>(null);
   const [loadingImage, setLoadingImage] = useState(true);
 
-  const imageSources = [
-    {
-      uri: VBS_2023.VBS_2023_1,
-    },
-    {
-      uri: VBS_2023.VBS_2023_2,
-    },
-    {
-      uri: VBS_2023.VBS_2023_3,
-    },
-    {
-      uri: VBS_2023.VBS_2023_4,
-    },
-    {
-      uri: VBS_2023.VBS_2023_5,
-    },
-    {
-      uri: VBS_2023.VBS_2023_6,
-    },
-    {
-      uri: VBS_2023.VBS_2023_7,
-    },
-    {
-      uri: VBS_2023.VBS_2023_8,
-    },
-    {
-      uri: VBS_2023.VBS_2023_9,
-    },
-    {
-      uri: VBS_2023.VBS_2023_10,
-    },
-    {
-      uri: VBS_2023.VBS_2023_11,
-    },
-    {
-      uri: VBS_2023.VBS_2023_12,
-    },
-    {
-      uri: VBS_2023.VBS_2023_13,
-    },
-    {
-      uri: VBS_2023.VBS_2023_14,
-    },
-    {
-      uri: VBS_2023.VBS_2023_15,
-    },
-    {
-      uri: VBS_2023.VBS_2023_16,
-    },
-    {
-      uri: VBS_2023.VBS_2023_17,
-    },
-    {
-      uri: VBS_2023.VBS_2023_18,
-    },
-    {
-      uri: VBS_2023.VBS_2023_19,
-    },
-    {
-      uri: VBS_2023.VBS_2023_20,
-    },
-    {
-      uri: VBS_2023.VBS_2023_21,
-    },
-    {
-      uri: VBS_2023.VBS_2023_22,
-    },
-    {
-      uri: VBS_2023.VBS_2023_23,
-    },
-    {
-      uri: VBS_2023.VBS_2023_24,
-    },
-  ];
+  // Dynamically create array from object keys
+  const imageSources = Object.values(VBS_2023).map(uri => ({ uri }));
 
-  const openModal = (image: any) => {
+  const openModal = (image: { uri: string }) => {
     setSelectedImage(image);
     setLoadingImage(true);
     setModalVisible(true);
@@ -115,7 +41,7 @@ const VBS2023: FC = () => {
     setSelectedImage(null);
   };
 
-  const renderImageItem = ({ item }: { item: any }) => (
+  const renderImageItem = ({ item }: { item: { uri: string } }) => (
     <TouchableOpacity
       onPress={() => openModal(item)}
       style={{
@@ -125,10 +51,10 @@ const VBS2023: FC = () => {
         overflow: 'hidden',
         backgroundColor: COLORS.TextInput,
       }}>
-      <Image
-        source={item}
+      <FastImage
+        source={{ uri: item.uri, priority: FastImage.priority.normal }}
         style={{ width: '100%', height: 150 }}
-        resizeMode="cover"
+        resizeMode={FastImage.resizeMode.cover}
       />
     </TouchableOpacity>
   );
@@ -140,7 +66,6 @@ const VBS2023: FC = () => {
         screen="VBS_2023"
       />
 
-      {/* Title */}
       <View style={{ padding: 16 }}>
         <Text
           style={{
@@ -152,7 +77,6 @@ const VBS2023: FC = () => {
         </Text>
       </View>
 
-      {/* Grid of Images */}
       <FlatList
         data={imageSources}
         renderItem={renderImageItem}
@@ -161,10 +85,9 @@ const VBS2023: FC = () => {
         contentContainerStyle={{ paddingHorizontal: 8, paddingBottom: 20 }}
       />
 
-      {/* Image Preview Modal */}
       <Modal
         visible={modalVisible}
-        transparent={true}
+        transparent
         animationType="fade"
         onRequestClose={closeModal}>
         <TouchableWithoutFeedback onPress={closeModal}>
@@ -186,14 +109,14 @@ const VBS2023: FC = () => {
                 {loadingImage && (
                   <ActivityIndicator size="large" color={COLORS.White} />
                 )}
-                <Image
-                  source={selectedImage}
+                <FastImage
+                  source={{ uri: selectedImage.uri, priority: FastImage.priority.high }}
                   style={{
                     width: '90%',
                     height: '80%',
                     borderRadius: 10,
                   }}
-                  resizeMode="contain"
+                  resizeMode={FastImage.resizeMode.contain}
                   onLoadEnd={() => setLoadingImage(false)}
                 />
               </>
@@ -206,4 +129,5 @@ const VBS2023: FC = () => {
     </SafeAreaView>
   );
 };
+
 export default VBS2023;
