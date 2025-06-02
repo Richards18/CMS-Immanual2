@@ -46,10 +46,14 @@ const videoLinks = [
 const ImportantEvents: FC<Props> = () => {
   const scrollRef = useRef<ScrollView>(null);
   const [scrollX, setScrollX] = useState(0);
-  const scrollStep = 235; // approx width + margin
+  const [contentWidth, setContentWidth] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [isPressed, setIsPressed] = useState(false);
+  const scrollStep = 235;
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    setScrollX(event.nativeEvent.contentOffset.x);
+    const x = event.nativeEvent.contentOffset.x;
+    setScrollX(x);
   };
 
   const handleScrollRight = () => {
@@ -99,10 +103,21 @@ const ImportantEvents: FC<Props> = () => {
         </Text>
 
         {/* Video Scroll with arrows */}
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <TouchableOpacity onPress={handleScrollLeft} activeOpacity={0.8}>
-            <Icon name="chevron-back-circle" size={25} color={COLORS.White} />
-          </TouchableOpacity>
+        <View
+          style={{ flexDirection: 'row', alignItems: 'center' }}
+          onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width)}>
+
+          {/* Back arrow - visible only if scrollX > 0 */}
+          {scrollX > 0 && (
+            <TouchableOpacity onPress={handleScrollLeft} activeOpacity={0.8}>
+              <Icon
+                name="chevron-back"
+                size={28}
+                color="#FFF"
+              // style={{ paddingHorizontal: 4 }}
+              />
+            </TouchableOpacity>
+          )}
 
           <ScrollView
             horizontal
@@ -110,13 +125,14 @@ const ImportantEvents: FC<Props> = () => {
             ref={scrollRef}
             onScroll={handleScroll}
             scrollEventThrottle={16}
+            onContentSizeChange={(w, _) => setContentWidth(w)}
             contentContainerStyle={{
               paddingHorizontal: 15,
               alignItems: 'center',
             }}
             style={{
               flex: 1,
-              marginHorizontal: 5,
+              // marginHorizontal: 5,
             }}>
             {videoLinks.map((item, index) => (
               <TouchableOpacity
@@ -129,8 +145,8 @@ const ImportantEvents: FC<Props> = () => {
                 <Image
                   source={item.image}
                   style={{
-                    width: 220, // reduced from 300
-                    height: 150, // adjusted height for aspect ratio
+                    width: 220,
+                    height: 170,
                     borderRadius: 10,
                   }}
                   resizeMode="cover"
@@ -139,17 +155,27 @@ const ImportantEvents: FC<Props> = () => {
             ))}
           </ScrollView>
 
-          <TouchableOpacity onPress={handleScrollRight} activeOpacity={0.8}>
-            <Icon
-              name="chevron-forward-circle"
-              size={25}
-              color={COLORS.White}
-            />
-          </TouchableOpacity>
+          {/* Forward arrow - visible only if not at the end */}
+          {scrollX + containerWidth < contentWidth && (
+            <TouchableOpacity onPress={handleScrollRight} activeOpacity={0.8}>
+              <Icon
+                name="chevron-forward"
+                size={28}
+                color="#FFF"
+              // style={{ paddingHorizontal: 4 }}
+              />
+            </TouchableOpacity>
+          )}
         </View>
 
         {/* See All Button */}
         <TouchableOpacity
+          activeOpacity={0.8}
+          onPressIn={() => setIsPressed(true)}
+          onPressOut={() => setIsPressed(false)}
+          onPress={() =>
+            Linking.openURL('https://www.youtube.com/@cmsimmanuel4864/streams')
+          }
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -159,25 +185,20 @@ const ImportantEvents: FC<Props> = () => {
             paddingVertical: 12,
             borderWidth: 2,
             borderColor: COLORS.ButtonColor,
-            backgroundColor: COLORS.White,
+            backgroundColor: isPressed ? COLORS.ButtonColor : COLORS.White,
             borderRadius: 20,
             width: 250,
             height: 50,
-          }}
-          activeOpacity={0.8}
-          onPress={() =>
-            Linking.openURL('https://www.youtube.com/@cmsimmanuel4864/streams')
-          }>
+          }}>
           <Text
             style={{
               fontSize: 16,
-              fontWeight: '600',
+              fontWeight: 'bold',
               marginRight: 8,
-              color: COLORS.ButtonColor,
+              color: isPressed ? COLORS.White : COLORS.ButtonColor,
             }}>
             அனைத்தையும் காண
           </Text>
-          <Icon name="arrow-forward" size={18} color={COLORS.ButtonColor} />
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

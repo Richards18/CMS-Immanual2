@@ -12,13 +12,51 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import { useNavigation } from '@react-navigation/native';
-import { FONT_SIZE } from '../../../../Constants/FontSize';
 import { COLORS } from '../../../../Constants/Colors';
-import Header from '../../../../Header/Header';
 import { HILLS_PEOPLE } from '../../../../Constants/Constant';
+import Header from '../../../../Header/Header';
+import { FONT_SIZE } from '../../../../Constants/FontSize';
+
 
 const screenWidth = Dimensions.get('window').width;
+
+// Image card component with skeleton loading
+const ImageCard: FC<{ uri: string; onPress: (image: { uri: string }) => void }> = ({
+  uri,
+  onPress,
+}) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <TouchableOpacity
+      onPress={() => onPress({ uri })}
+      style={{
+        width: (screenWidth - 48) / 2,
+        margin: 8,
+        borderRadius: 10,
+        overflow: 'hidden',
+        backgroundColor: COLORS.TextInput,
+      }}>
+      {!isLoaded && (
+        <SkeletonPlaceholder borderRadius={10}>
+          <SkeletonPlaceholder.Item width="100%" height={150} />
+        </SkeletonPlaceholder>
+      )}
+      <Image
+        source={{ uri }}
+        style={{
+          width: '100%',
+          height: 150,
+          position: isLoaded ? 'relative' : 'absolute',
+        }}
+        resizeMode="cover"
+        onLoadEnd={() => setIsLoaded(true)}
+      />
+    </TouchableOpacity>
+  );
+};
 
 const HillPeople: FC = () => {
   const navigation = useNavigation();
@@ -27,7 +65,6 @@ const HillPeople: FC = () => {
   const [selectedImage, setSelectedImage] = useState<{ uri: string } | null>(null);
   const [loadingImage, setLoadingImage] = useState(true);
 
-  // Create image array dynamically from HILLS_PEOPLE object
   const imageSources = Object.values(HILLS_PEOPLE).map(uri => ({ uri }));
 
   const openModal = (image: { uri: string }) => {
@@ -42,26 +79,12 @@ const HillPeople: FC = () => {
   };
 
   const renderImageItem = ({ item }: { item: { uri: string } }) => (
-    <TouchableOpacity
-      onPress={() => openModal(item)}
-      style={{
-        width: (screenWidth - 48) / 2,
-        margin: 8,
-        borderRadius: 10,
-        overflow: 'hidden',
-        backgroundColor: COLORS.TextInput,
-      }}>
-      <Image
-        source={item}
-        style={{ width: '100%', height: 150 }}
-        resizeMode="cover"
-      />
-    </TouchableOpacity>
+    <ImageCard uri={item.uri} onPress={openModal} />
   );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.White }}>
-      <Header title="மலை வாழ் மக்கள் சுற்றுப்பயணம் 2014" screen="HILL_PEOPLE" />
+      <Header title="மலை வாழ் மக்கள் சுற்றுப்பயணம் 2014" screen='HILL_PEOPLE' />
 
       <View style={{ padding: 16 }}>
         <Text
@@ -103,9 +126,7 @@ const HillPeople: FC = () => {
 
             {selectedImage ? (
               <>
-                {loadingImage && (
-                  <ActivityIndicator size="large" color={COLORS.White} />
-                )}
+                {loadingImage && <ActivityIndicator size="large" color={COLORS.White} />}
                 <Image
                   source={selectedImage}
                   style={{

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 import {
   View,
   Text,
@@ -8,36 +8,37 @@ import {
   TextInput,
   Image,
 } from 'react-native';
-import {COLORS} from '../Constants/Colors';
-import {FONT_SIZE} from '../Constants/FontSize';
+import { COLORS } from '../Constants/Colors';
+import { FONT_SIZE } from '../Constants/FontSize';
 import { useNavigation } from '@react-navigation/native';
 import { SCREENS } from '../Constants/ScreenNames';
 
-interface Props {}
+interface Props { }
 
 const PrayerSupport: FC<Props> = () => {
   const navigation = useNavigation();
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.White}}>
-      {/* <ScrollView contentContainerStyle={{padding: 15, paddingBottom: 40}}> */}
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.White }}>
       <View
         style={{
           borderRadius: 15,
           padding: 20,
-          marginBottom: 20,
-          shadowColor: '#000',
-          shadowOffset: {width: 0, height: 4},
-          shadowOpacity: 0.1,
-          shadowRadius: 5,
-          elevation: 5,
-          marginTop: 15,
+          // marginBottom: 20,
+          // marginTop: 15,
         }}>
         {/* Heading Section */}
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <View style={{flex: 0.7, marginTop: 5}}>
+        <View style={{ flex: 1 }}>
+          <View style={{ flex: 0.3, alignItems: 'center', justifyContent: 'center' }}>
+            <Image
+              source={require('../Assets/Prayer_support.png')}
+              style={{ width: 200, height: 200 }}
+              resizeMode="contain"
+            />
+          </View>
+          <View style={{ flex: 0.7 }}>
             <Text
               style={{
-                fontSize: 22,
+                fontSize: 20,
                 fontWeight: '700',
                 color: COLORS.PrimaryColor,
                 textAlign: 'center',
@@ -46,13 +47,7 @@ const PrayerSupport: FC<Props> = () => {
               ஜெப ஆதரவை நாடுகிறீர்களா?
             </Text>
           </View>
-          <View style={{flex: 0.3, marginBottom: 10}}>
-            <Image
-              source={require('../Assets/Prayer_support.png')}
-              style={{width: 100, height: 60}}
-              resizeMode="contain"
-            />
-          </View>
+
         </View>
 
         {/* Content Text Section */}
@@ -63,6 +58,7 @@ const PrayerSupport: FC<Props> = () => {
             lineHeight: 24,
             textAlign: 'justify',
             marginBottom: 20,
+            fontWeight: '400'
           }}>
           நீங்கள் ஒரு சவாலான நேரத்தை கடந்து கொண்டிருக்கிறீர்களா? உங்களுடைய
           விண்ணப்பத்திற்கு எங்களது ஜெப உதவி தேவை என நினைக்கிறீர்களா?
@@ -87,7 +83,7 @@ const PrayerSupport: FC<Props> = () => {
             justifyContent: 'center',
             alignItems: 'center',
             shadowColor: '#000',
-            shadowOffset: {width: 0, height: 3},
+            shadowOffset: { width: 0, height: 3 },
             shadowOpacity: 0.2,
             shadowRadius: 6,
             elevation: 5,
@@ -95,7 +91,7 @@ const PrayerSupport: FC<Props> = () => {
           }}>
           <Text
             style={{
-              color: COLORS.Black,
+              color: COLORS.White,
               fontSize: FONT_SIZE.font_16,
               fontWeight: 'bold',
               letterSpacing: 1,
@@ -104,7 +100,6 @@ const PrayerSupport: FC<Props> = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      {/* </ScrollView> */}
     </SafeAreaView>
   );
 };

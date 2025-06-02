@@ -12,14 +12,50 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import { useNavigation } from '@react-navigation/native';
-import { FONT_SIZE } from '../../../../../Constants/FontSize';
+import { XMAS_2013 } from '../../../../../Constants/Constant';
 import { COLORS } from '../../../../../Constants/Colors';
 import Header from '../../../../../Header/Header';
-import { XMAS_2013 } from '../../../../../Constants/Constant';
+import { FONT_SIZE } from '../../../../../Constants/FontSize';
 
 
 const screenWidth = Dimensions.get('window').width;
+
+const ImageCard: FC<{ uri: string; onPress: (image: { uri: string }) => void }> = ({
+  uri,
+  onPress,
+}) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <TouchableOpacity
+      onPress={() => onPress({ uri })}
+      style={{
+        width: (screenWidth - 48) / 2,
+        margin: 8,
+        borderRadius: 10,
+        overflow: 'hidden',
+        backgroundColor: COLORS.TextInput,
+      }}>
+      {!isLoaded && (
+        <SkeletonPlaceholder borderRadius={10}>
+          <SkeletonPlaceholder.Item width="100%" height={150} />
+        </SkeletonPlaceholder>
+      )}
+      <Image
+        source={{ uri }}
+        style={{
+          width: '100%',
+          height: 150,
+          position: isLoaded ? 'relative' : 'absolute',
+        }}
+        resizeMode="cover"
+        onLoadEnd={() => setIsLoaded(true)}
+      />
+    </TouchableOpacity>
+  );
+};
 
 const Xmas2013: FC = () => {
   const navigation = useNavigation();
@@ -28,7 +64,6 @@ const Xmas2013: FC = () => {
   const [selectedImage, setSelectedImage] = useState<{ uri: string } | null>(null);
   const [loadingImage, setLoadingImage] = useState(true);
 
-  // Dynamically create array of image sources from SILVER_JUBILEE object values
   const imageSources = Object.values(XMAS_2013).map(uri => ({ uri }));
 
   const openModal = (image: { uri: string }) => {
@@ -43,29 +78,12 @@ const Xmas2013: FC = () => {
   };
 
   const renderImageItem = ({ item }: { item: { uri: string } }) => (
-    <TouchableOpacity
-      onPress={() => openModal(item)}
-      style={{
-        width: (screenWidth - 48) / 2,
-        margin: 8,
-        borderRadius: 10,
-        overflow: 'hidden',
-        backgroundColor: COLORS.TextInput,
-      }}>
-      <Image
-        source={item}
-        style={{ width: '100%', height: 150 }}
-        resizeMode="cover"
-      />
-    </TouchableOpacity>
+    <ImageCard uri={item.uri} onPress={openModal} />
   );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.White }}>
-      <Header
-        title="மரம் நடும் விழா மற்றும் கிறிஸ்துமஸ் மரம் கொண்டாட்டம் 2013"
-        
-      />
+      <Header title="மரம் நடும் விழா மற்றும் கிறிஸ்துமஸ் மரம் கொண்டாட்டம் 2013" />
 
       <View style={{ padding: 16 }}>
         <Text
@@ -107,9 +125,7 @@ const Xmas2013: FC = () => {
 
             {selectedImage ? (
               <>
-                {loadingImage && (
-                  <ActivityIndicator size="large" color={COLORS.White} />
-                )}
+                {loadingImage && <ActivityIndicator size="large" color={COLORS.White} />}
                 <Image
                   source={selectedImage}
                   style={{

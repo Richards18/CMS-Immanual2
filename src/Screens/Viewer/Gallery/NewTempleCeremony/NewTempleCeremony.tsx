@@ -12,14 +12,50 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import { useNavigation } from '@react-navigation/native';
 import { FONT_SIZE } from '../../../../Constants/FontSize';
 import { COLORS } from '../../../../Constants/Colors';
 import Header from '../../../../Header/Header';
-import { NEW_TEMPLE_DEDICATION } from '../../../../Constants/Constant';
-
+import { NEW_TEMPLE_DEDICATION, PASTOR_HOUSE_DEDICATION } from '../../../../Constants/Constant';
 
 const screenWidth = Dimensions.get('window').width;
+
+// Image card component with skeleton loading
+const ImageCard: FC<{ uri: string; onPress: (image: { uri: string }) => void }> = ({
+  uri,
+  onPress,
+}) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <TouchableOpacity
+      onPress={() => onPress({ uri })}
+      style={{
+        width: (screenWidth - 48) / 2,
+        margin: 8,
+        borderRadius: 10,
+        overflow: 'hidden',
+        backgroundColor: COLORS.TextInput,
+      }}>
+      {!isLoaded && (
+        <SkeletonPlaceholder borderRadius={10}>
+          <SkeletonPlaceholder.Item width="100%" height={150} />
+        </SkeletonPlaceholder>
+      )}
+      <Image
+        source={{ uri }}
+        style={{
+          width: '100%',
+          height: 150,
+          position: isLoaded ? 'relative' : 'absolute',
+        }}
+        resizeMode="cover"
+        onLoadEnd={() => setIsLoaded(true)}
+      />
+    </TouchableOpacity>
+  );
+};
 
 const NewTempleCeremony: FC = () => {
   const navigation = useNavigation();
@@ -28,7 +64,7 @@ const NewTempleCeremony: FC = () => {
   const [selectedImage, setSelectedImage] = useState<{ uri: string } | null>(null);
   const [loadingImage, setLoadingImage] = useState(true);
 
-  // Dynamically create array of image sources from SILVER_JUBILEE object values
+  // Convert PASTOR_HOUSE_DEDICATION constants object into array of {uri} objects
   const imageSources = Object.values(NEW_TEMPLE_DEDICATION).map(uri => ({ uri }));
 
   const openModal = (image: { uri: string }) => {
@@ -43,29 +79,12 @@ const NewTempleCeremony: FC = () => {
   };
 
   const renderImageItem = ({ item }: { item: { uri: string } }) => (
-    <TouchableOpacity
-      onPress={() => openModal(item)}
-      style={{
-        width: (screenWidth - 48) / 2,
-        margin: 8,
-        borderRadius: 10,
-        overflow: 'hidden',
-        backgroundColor: COLORS.TextInput,
-      }}>
-      <Image
-        source={item}
-        style={{ width: '100%', height: 150 }}
-        resizeMode="cover"
-      />
-    </TouchableOpacity>
+    <ImageCard uri={item.uri} onPress={openModal} />
   );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.White }}>
-      <Header
-        title="புதிய ஆலயம் பிரதிஷ்டை விழா"
-        
-      />
+      <Header title="புதிய ஆலயம் பிரதிஷ்டை விழா" />
 
       <View style={{ padding: 16 }}>
         <Text
@@ -107,9 +126,7 @@ const NewTempleCeremony: FC = () => {
 
             {selectedImage ? (
               <>
-                {loadingImage && (
-                  <ActivityIndicator size="large" color={COLORS.White} />
-                )}
+                {loadingImage && <ActivityIndicator size="large" color={COLORS.White} />}
                 <Image
                   source={selectedImage}
                   style={{

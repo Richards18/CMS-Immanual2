@@ -97,7 +97,7 @@ const CustomMenuBar: FC<Props> = props => {
 
         <DrawerItem
           label="நிகழ்வுகள்"
-          onPress={() => { }}
+          onPress={() => { navigation.navigate(SCREENS.EVENTS_SCREEN) }}
           labelStyle={{
             color: COLORS.PrimaryColor,
             fontSize: FONT_SIZE.font_15,

@@ -15,10 +15,10 @@ import { COLORS } from '../Constants/Colors';
 import { FONT_SIZE } from '../Constants/FontSize';
 import axios from 'axios';
 
-interface Props {}
+interface Props { }
 
 const BirthdayWish: FC<Props> = () => {
-  const [birthdayList, setBirthdayList] = useState<{ name: string, gender: string, mobileNumber: number }[]>([]);
+  const [birthdayList, setBirthdayList] = useState<{ nameTitle: string, name: string, gender: string, mobileNumber: number }[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -51,9 +51,10 @@ const BirthdayWish: FC<Props> = () => {
       );
 
       const members = response?.data || [];
-      console.log('members', JSON.stringify(members));
+      // console.log('members', JSON.stringify(members));
 
       const formatted = members.map((member: any) => ({
+        nameTitle: member.nameTitle,
         name: member.fullName,
         gender: member.gender,
         mobileNumber: member.mobileNumber
@@ -70,7 +71,7 @@ const BirthdayWish: FC<Props> = () => {
 
   const sendWish = (mobileNumber: number) => {
     const message = '🎉 பிறந்த நாள் வாழ்த்துகள்! உங்கள் வாழ்க்கையில் கர்த்தரின் ஆசீர்வாதம் நிரம்பி வழியட்டும்!';
-  
+
     Alert.alert(
       'வாழ்த்து அனுப்ப',
       'பிறந்த நாள் வாழ்த்தை அனுப்ப விரும்பும் வழியைத் தேர்ந்தெடுக்கவும்:',
@@ -98,36 +99,34 @@ const BirthdayWish: FC<Props> = () => {
       { cancelable: true }
     );
   };
-  
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
 
       {/* Header */}
       {!loading && birthdayList.length > 0 && (
-        <View style={{flex: 1, backgroundColor: '#FFF9F6', padding: width * 0.05, marginTop: width * 0.05,}}>
+        <View style={{ flex: 1, backgroundColor: '#FFF9F6', padding: width * 0.05 }}>
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
               marginBottom: width * 0.03,
             }}
           >
+            <Image
+              source={require('../Assets/birthday-1.png')}
+              style={{ width: width * 0.45, height: width * 0.45, position: 'absolute', alignSelf: 'flex-end' }}
+              resizeMode="contain"
+            />
             <Text
               style={{
-                flex: 1,
                 fontSize: width * 0.055,
                 fontWeight: '700',
                 color: '#D95D39',
+                marginTop: 90
               }}
             >
-              இன்றைய பிறந்த நாள் வாழ்த்துக்கள்
+              இன்றைய {'\n'}பிறந்த நாள் {'\n'}வாழ்த்துக்கள்
             </Text>
-            <Image
-              source={require('../Assets/birthday-1.png')}
-              style={{ width: width * 0.15, height: width * 0.15 }}
-              resizeMode="contain"
-            />
           </View>
 
           {/* Message */}
@@ -135,9 +134,8 @@ const BirthdayWish: FC<Props> = () => {
             style={{
               fontSize: width * 0.04,
               lineHeight: width * 0.06,
-              color: COLORS.Grey2,
+              color: COLORS.Black,
               textAlign: 'justify',
-              marginVertical: width * 0.04,
               fontWeight: '500',
             }}
           >
@@ -174,7 +172,7 @@ const BirthdayWish: FC<Props> = () => {
                   alignItems: 'center',
                 }}
               >
-              {/* Image + Date */}
+                {/* Image + Date */}
                 <View style={{ position: 'relative', marginRight: width * 0.04, marginLeft: width * 0.05 }}>
                   <Image
                     source={
@@ -203,7 +201,7 @@ const BirthdayWish: FC<Props> = () => {
                   <Text
                     style={{
                       position: 'absolute',
-                      left: -width * 0.025,
+                      left: -width * 0.020,
                       fontSize: 9,
                       fontWeight: 'bold',
                       color: '#D95D39',
@@ -223,7 +221,7 @@ const BirthdayWish: FC<Props> = () => {
                       marginBottom: width * 0.015,
                     }}
                   >
-                    {item.name}
+                    {item.nameTitle + ". " + item.name}
                   </Text>
 
                   <TouchableOpacity

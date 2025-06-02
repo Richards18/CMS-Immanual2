@@ -71,14 +71,14 @@ const HomeViewer: FC<Props> = props => {
           resizeMode="contain"
         />
         <TouchableOpacity onPress={() => props.renderMenuIcon()}>
-          <Ionicons name="menu" size={32} color={COLORS.PrimaryColor} />
+          <Ionicons name="menu" size={34} color={COLORS.PrimaryColor} />
         </TouchableOpacity>
       </View>
 
       {/* Content */}
       <ScrollView
         style={{ flex: 1, paddingHorizontal: 16 }}
-        contentContainerStyle={{ paddingBottom: 40 }}>
+        contentContainerStyle={{ paddingBottom: 20 }}>
 
         {bibleVerse && (
           <View
@@ -191,7 +191,7 @@ const HomeViewer: FC<Props> = props => {
               style={{
                 color: COLORS.Black,
                 fontSize: FONT_SIZE.font_16,
-                fontWeight: '300',
+                fontWeight: '400',
                 marginTop: index === 0 ? 0 : 12,
                 lineHeight: 24,
                 textAlign: 'center',

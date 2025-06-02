@@ -1,4 +1,4 @@
-import React, {FC, useRef, useState} from 'react';
+import React, { FC, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -7,11 +7,13 @@ import {
   FlatList,
   Dimensions,
   TouchableOpacity,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
 } from 'react-native';
-import {COLORS} from '../Constants/Colors';
+import { COLORS } from '../Constants/Colors';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const CARD_WIDTH = Dimensions.get('window').width * 0.5;
+const CARD_WIDTH = Dimensions.get('window').width * 0.5 + 20; // Add marginHorizontal adjustment
 
 const colors = {
   background: '#F9F9FB',
@@ -93,16 +95,22 @@ const SpecialWorships: FC = () => {
     }
   };
 
+  const handleScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const offsetX = event.nativeEvent.contentOffset.x;
+    const index = Math.round(offsetX / CARD_WIDTH);
+    setCurrentIndex(index);
+  };
+
   return (
     <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: COLORS.PrimaryColor,
-        marginTop: 15,
+        marginTop: 20,
         borderRadius: 20,
       }}>
       {/* Title */}
-      <View style={{marginTop: 20, marginBottom: 10, paddingHorizontal: 16}}>
+      <View style={{ marginTop: 20, marginBottom: 10, paddingHorizontal: 16 }}>
         <Text
           style={{
             fontSize: 24,
@@ -117,15 +125,8 @@ const SpecialWorships: FC = () => {
       {/* Description Box */}
       <View
         style={{
-          backgroundColor: '#ffffff20',
-          marginHorizontal: 16,
-          padding: 17,
-          borderRadius: 12,
-          shadowColor: '#000',
-          shadowOpacity: 0.1,
-          shadowOffset: {width: 0, height: 4},
-          shadowRadius: 8,
-          elevation: 3,
+          marginHorizontal: 10,
+          padding: 5,
         }}>
         <Text
           style={{
@@ -141,56 +142,59 @@ const SpecialWorships: FC = () => {
         </Text>
       </View>
 
-      {/* Cards */}
+      {/* Cards with navigation */}
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          marginTop: 25,
+          marginTop: 15,
         }}>
-        <TouchableOpacity onPress={handleScrollBack}>
-          <Icon
-            name="chevron-back"
-            size={20}
-            color="#FFF"
-            style={{paddingHorizontal: 4}}
-          />
-        </TouchableOpacity>
 
+        {/* Back Arrow */}
+        {currentIndex > 0 ? (
+          <TouchableOpacity onPress={handleScrollBack} activeOpacity={0.6}>
+            <Icon
+              name="chevron-back"
+              size={28}
+              color="#FFF"
+              style={{ paddingHorizontal: 4 }}
+            />
+          </TouchableOpacity>
+        ) : (
+          <View style={{ width: 28, paddingHorizontal: 4 }} />
+        )}
+
+        {/* FlatList */}
         <FlatList
           ref={flatListRef}
           data={worshipItems}
           horizontal
           keyExtractor={item => item.id}
           pagingEnabled
+          onMomentumScrollEnd={handleScrollEnd}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{paddingVertical: 5, paddingHorizontal: 5}}
-          renderItem={({item}) => (
+          contentContainerStyle={{ paddingVertical: 5, paddingHorizontal: 5 }}
+          renderItem={({ item }) => (
             <View
               style={{
                 backgroundColor: colors.card,
                 width: CARD_WIDTH,
                 marginHorizontal: 10,
                 borderRadius: 16,
-                padding: 16,
+                padding: 10,
                 alignItems: 'center',
-                shadowColor: '#000',
-                shadowOpacity: 0.1,
-                shadowOffset: {width: 0, height: 4},
-                shadowRadius: 10,
-                elevation: 3,
                 marginBottom: 10,
               }}>
               <Image
                 source={item.image}
-                style={{width: 100, height: 60, marginBottom: 16}}
+                style={{ width: 100, height: 60, marginBottom: 16 }}
                 resizeMode="contain"
               />
               <Text
                 style={{
                   fontSize: 17,
                   fontWeight: 'bold',
-                  color: colors.accent,
+                  color: COLORS.Black,
                   marginBottom: 8,
                   textAlign: 'center',
                 }}>
@@ -199,7 +203,8 @@ const SpecialWorships: FC = () => {
               <Text
                 style={{
                   fontSize: 13,
-                  color: colors.textSecondary,
+                  color: COLORS.Black,
+                  fontWeight: '500',
                   textAlign: 'center',
                   lineHeight: 20,
                 }}>
@@ -209,14 +214,19 @@ const SpecialWorships: FC = () => {
           )}
         />
 
-        <TouchableOpacity onPress={handleScrollForward}>
-          <Icon
-            name="chevron-forward"
-            size={20}
-            color="#FFF"
-            style={{paddingHorizontal: 4}}
-          />
-        </TouchableOpacity>
+        {/* Forward Arrow */}
+        {currentIndex < worshipItems.length - 1 ? (
+          <TouchableOpacity onPress={handleScrollForward} activeOpacity={0.6}>
+            <Icon
+              name="chevron-forward"
+              size={28}
+              color="#FFF"
+              style={{ paddingHorizontal: 4 }}
+            />
+          </TouchableOpacity>
+        ) : (
+          <View style={{ width: 28, paddingHorizontal: 4 }} />
+        )}
       </View>
     </SafeAreaView>
   );

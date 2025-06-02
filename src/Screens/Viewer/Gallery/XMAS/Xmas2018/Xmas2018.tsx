@@ -4,22 +4,59 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
-  StatusBar,
+  Image,
   Modal,
   TouchableWithoutFeedback,
   FlatList,
   Dimensions,
   ActivityIndicator,
 } from 'react-native';
-import FastImage from 'react-native-fast-image';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import { useNavigation } from '@react-navigation/native';
-import { FONT_SIZE } from '../../../../../Constants/FontSize';
+import { XMAS_2018, XMAS_SERVICE_2018 } from '../../../../../Constants/Constant';
 import { COLORS } from '../../../../../Constants/Colors';
 import Header from '../../../../../Header/Header';
-import { XMAS_2018 } from '../../../../../Constants/Constant';
+import { FONT_SIZE } from '../../../../../Constants/FontSize';
+
 
 const screenWidth = Dimensions.get('window').width;
+
+// Image card component with skeleton loading
+const ImageCard: FC<{ uri: string; onPress: (image: { uri: string }) => void }> = ({
+  uri,
+  onPress,
+}) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <TouchableOpacity
+      onPress={() => onPress({ uri })}
+      style={{
+        width: (screenWidth - 48) / 2,
+        margin: 8,
+        borderRadius: 10,
+        overflow: 'hidden',
+        backgroundColor: COLORS.TextInput,
+      }}>
+      {!isLoaded && (
+        <SkeletonPlaceholder borderRadius={10}>
+          <SkeletonPlaceholder.Item width="100%" height={150} />
+        </SkeletonPlaceholder>
+      )}
+      <Image
+        source={{ uri }}
+        style={{
+          width: '100%',
+          height: 150,
+          position: isLoaded ? 'relative' : 'absolute',
+        }}
+        resizeMode="cover"
+        onLoadEnd={() => setIsLoaded(true)}
+      />
+    </TouchableOpacity>
+  );
+};
 
 const Xmas2018: FC = () => {
   const navigation = useNavigation();
@@ -28,8 +65,7 @@ const Xmas2018: FC = () => {
   const [selectedImage, setSelectedImage] = useState<{ uri: string } | null>(null);
   const [loadingImage, setLoadingImage] = useState(true);
 
-  // Convert the object to an array of { uri: string }
-  const imageSources: { uri: string }[] = Object.values(XMAS_2018).map(uri => ({ uri }));
+  const imageSources = Object.values(XMAS_2018).map(uri => ({ uri }));
 
   const openModal = (image: { uri: string }) => {
     setSelectedImage(image);
@@ -43,29 +79,13 @@ const Xmas2018: FC = () => {
   };
 
   const renderImageItem = ({ item }: { item: { uri: string } }) => (
-    <TouchableOpacity
-      onPress={() => openModal(item)}
-      style={{
-        width: (screenWidth - 48) / 2,
-        margin: 8,
-        borderRadius: 10,
-        overflow: 'hidden',
-        backgroundColor: COLORS.TextInput,
-      }}>
-      <FastImage
-        source={item}
-        style={{ width: '100%', height: 150 }}
-        resizeMode={FastImage.resizeMode.cover}
-      />
-    </TouchableOpacity>
+    <ImageCard uri={item.uri} onPress={openModal} />
   );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.White }}>
-      <StatusBar barStyle="dark-content" />
-      <Header title="கிறிஸ்துமஸ் மரவிழா கொண்டாட்டம் 2018" screen="XMAS_2018" />
+      <Header title="கிறிஸ்துமஸ் மரவிழா கொண்டாட்டம் 2018" screen='XMAS_2018' />
 
-      {/* Title */}
       <View style={{ padding: 16 }}>
         <Text
           style={{
@@ -77,21 +97,17 @@ const Xmas2018: FC = () => {
         </Text>
       </View>
 
-      {/* Grid of Images */}
       <FlatList
         data={imageSources}
         renderItem={renderImageItem}
         keyExtractor={(_, index) => index.toString()}
         numColumns={2}
-        initialNumToRender={6}
-        removeClippedSubviews={true}
         contentContainerStyle={{ paddingHorizontal: 8, paddingBottom: 20 }}
       />
 
-      {/* Image Preview Modal */}
       <Modal
         visible={modalVisible}
-        transparent={true}
+        transparent
         animationType="fade"
         onRequestClose={closeModal}>
         <TouchableWithoutFeedback onPress={closeModal}>
@@ -110,17 +126,15 @@ const Xmas2018: FC = () => {
 
             {selectedImage ? (
               <>
-                {loadingImage && (
-                  <ActivityIndicator size="large" color={COLORS.White} />
-                )}
-                <FastImage
+                {loadingImage && <ActivityIndicator size="large" color={COLORS.White} />}
+                <Image
                   source={selectedImage}
                   style={{
                     width: '90%',
                     height: '80%',
                     borderRadius: 10,
                   }}
-                  resizeMode={FastImage.resizeMode.contain}
+                  resizeMode="contain"
                   onLoadEnd={() => setLoadingImage(false)}
                 />
               </>

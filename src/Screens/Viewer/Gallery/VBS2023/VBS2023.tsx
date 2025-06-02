@@ -4,21 +4,58 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
+  Image,
   Modal,
   TouchableWithoutFeedback,
   FlatList,
   Dimensions,
   ActivityIndicator,
 } from 'react-native';
-import FastImage from 'react-native-fast-image'; // optional
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import { useNavigation } from '@react-navigation/native';
 import { FONT_SIZE } from '../../../../Constants/FontSize';
 import { COLORS } from '../../../../Constants/Colors';
 import Header from '../../../../Header/Header';
-import { VBS_2023 } from '../../../../Constants/Constant';
+import { PASTOR_HOUSE_DEDICATION, VBS_2023 } from '../../../../Constants/Constant';
 
 const screenWidth = Dimensions.get('window').width;
+
+// Image card component with skeleton loading
+const ImageCard: FC<{ uri: string; onPress: (image: { uri: string }) => void }> = ({
+  uri,
+  onPress,
+}) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <TouchableOpacity
+      onPress={() => onPress({ uri })}
+      style={{
+        width: (screenWidth - 48) / 2,
+        margin: 8,
+        borderRadius: 10,
+        overflow: 'hidden',
+        backgroundColor: COLORS.TextInput,
+      }}>
+      {!isLoaded && (
+        <SkeletonPlaceholder borderRadius={10}>
+          <SkeletonPlaceholder.Item width="100%" height={150} />
+        </SkeletonPlaceholder>
+      )}
+      <Image
+        source={{ uri }}
+        style={{
+          width: '100%',
+          height: 150,
+          position: isLoaded ? 'relative' : 'absolute',
+        }}
+        resizeMode="cover"
+        onLoadEnd={() => setIsLoaded(true)}
+      />
+    </TouchableOpacity>
+  );
+};
 
 const VBS2023: FC = () => {
   const navigation = useNavigation();
@@ -27,7 +64,7 @@ const VBS2023: FC = () => {
   const [selectedImage, setSelectedImage] = useState<{ uri: string } | null>(null);
   const [loadingImage, setLoadingImage] = useState(true);
 
-  // Dynamically create array from object keys
+  // Convert PASTOR_HOUSE_DEDICATION constants object into array of {uri} objects
   const imageSources = Object.values(VBS_2023).map(uri => ({ uri }));
 
   const openModal = (image: { uri: string }) => {
@@ -42,29 +79,12 @@ const VBS2023: FC = () => {
   };
 
   const renderImageItem = ({ item }: { item: { uri: string } }) => (
-    <TouchableOpacity
-      onPress={() => openModal(item)}
-      style={{
-        width: (screenWidth - 48) / 2,
-        margin: 8,
-        borderRadius: 10,
-        overflow: 'hidden',
-        backgroundColor: COLORS.TextInput,
-      }}>
-      <FastImage
-        source={{ uri: item.uri, priority: FastImage.priority.normal }}
-        style={{ width: '100%', height: 150 }}
-        resizeMode={FastImage.resizeMode.cover}
-      />
-    </TouchableOpacity>
+    <ImageCard uri={item.uri} onPress={openModal} />
   );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.White }}>
-      <Header
-        title="பவள விழா மண்டபம் தரப்பு மற்றும் V.B.S கலை நிகழ்ச்சிகள் 2023"
-        screen="VBS_2023"
-      />
+      <Header title="பவள விழா மண்டபம் தரப்பு மற்றும் V.B.S கலை நிகழ்ச்சிகள் 2023" />
 
       <View style={{ padding: 16 }}>
         <Text
@@ -106,17 +126,15 @@ const VBS2023: FC = () => {
 
             {selectedImage ? (
               <>
-                {loadingImage && (
-                  <ActivityIndicator size="large" color={COLORS.White} />
-                )}
-                <FastImage
-                  source={{ uri: selectedImage.uri, priority: FastImage.priority.high }}
+                {loadingImage && <ActivityIndicator size="large" color={COLORS.White} />}
+                <Image
+                  source={selectedImage}
                   style={{
                     width: '90%',
                     height: '80%',
                     borderRadius: 10,
                   }}
-                  resizeMode={FastImage.resizeMode.contain}
+                  resizeMode="contain"
                   onLoadEnd={() => setLoadingImage(false)}
                 />
               </>

@@ -1,13 +1,13 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {Provider as ReduxProvider} from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Provider as ReduxProvider } from 'react-redux';
 import store from '../Redux/Store';
-import {AuthProvider} from '../Redux/AuthProviders';
-import {SCREENS} from '../Constants/ScreenNames';
+import { AuthProvider } from '../Redux/AuthProviders';
+import { SCREENS } from '../Constants/ScreenNames';
 import SplashScreen from '../Screens/Viewer/Splash/SplashScreen';
 import HomeController from '../Screens/Controller/Home/HomeController';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomMenuBar from './CustomMenuBar';
 import PrayReqController from '../Screens/Controller/PrayRequest/PrayReqController';
 import OurChurchController from '../Screens/Controller/OurChurch/OurChurchController';
@@ -38,6 +38,7 @@ import TempleTowerCeremony from '../Screens/Viewer/Gallery/TempleTowerCeremony/T
 import Thidappaduthal2013 from '../Screens/Viewer/Gallery/Thidappaduthal/Thidappaduthal2013';
 import BhajanSermon2013 from '../Screens/Viewer/Gallery/BhajanSermon2023/BhajanSermon2023';
 import Xmas2012 from '../Screens/Viewer/Gallery/XMAS/Xmas2012/Xmas2012';
+import EventsController from '../Screens/Controller/Events/EventsContoller';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -46,11 +47,11 @@ const MainStack = () => {
   return (
     <Stack.Navigator
       initialRouteName={SCREENS.SPLASH_SCREEN}
-      screenOptions={{headerShown: false}}>
+      screenOptions={{ headerShown: false }}>
       <Stack.Screen name={SCREENS.SPLASH_SCREEN} component={SplashScreen} />
       <Stack.Screen name={SCREENS.HOME_SCREEN} component={HomeController} />
       <Stack.Screen name={SCREENS.NEWS_SCREEN} component={NewsController} />
-      <Stack.Screen name={SCREENS.EVENTS_SCREEN} component={Events} />
+      <Stack.Screen name={SCREENS.EVENTS_SCREEN} component={EventsController} />
       <Stack.Screen
         name={SCREENS.GALLERY_SCREEN}
         component={GalleryController}

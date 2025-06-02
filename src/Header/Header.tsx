@@ -45,12 +45,13 @@ const Header: FC<{ title: string; screen?: string }> = ({ title, screen }) => {
                 screen === 'CONTACT_SCREEN' ||
                 screen === 'NEWS_SCREEN' ||
                 screen === 'PRAY_REQUEST' ||
-                screen === 'OUR_CHURCH' || 
-                screen === 'WOMENS_FEST_NEWS' || 
-                screen === 'GOLDEN_JUBILEE' || 
+                screen === 'OUR_CHURCH' ||
+                screen === 'WOMENS_FEST_NEWS' ||
+                screen === 'GOLDEN_JUBILEE' ||
                 screen === 'PUSHPARAJ' ||
                 screen === 'NEW_YEAR_2018' ||
-                screen === 'XMAS_SERVICE_2018'
+                screen === 'XMAS_SERVICE_2018' ||
+                screen === 'THIDAPPADUTHAL'
                 ? FONT_SIZE.font_19
                 : FONT_SIZE.font_16,
             fontWeight: 'bold',

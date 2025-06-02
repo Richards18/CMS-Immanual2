@@ -18,8 +18,45 @@ import { FONT_SIZE } from '../../../../Constants/FontSize';
 import { COLORS } from '../../../../Constants/Colors';
 import Header from '../../../../Header/Header';
 import { HEMA_JOHN } from '../../../../Constants/Constant';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 const screenWidth = Dimensions.get('window').width;
+
+// Image Card with Skeleton Placeholder
+const ImageCard: FC<{
+  uri: string;
+  onPress: (image: { uri: string }) => void;
+}> = ({ uri, onPress }) => {
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+  return (
+    <TouchableOpacity
+      onPress={() => onPress({ uri })}
+      style={{
+        width: (screenWidth - 48) / 2,
+        margin: 8,
+        borderRadius: 10,
+        overflow: 'hidden',
+        backgroundColor: COLORS.TextInput,
+      }}>
+      {!isImageLoaded && (
+        <SkeletonPlaceholder borderRadius={10}>
+          <SkeletonPlaceholder.Item width="100%" height={150} />
+        </SkeletonPlaceholder>
+      )}
+      <FastImage
+        source={{ uri, priority: FastImage.priority.normal }}
+        style={{
+          width: '100%',
+          height: 150,
+          position: isImageLoaded ? 'relative' : 'absolute',
+        }}
+        resizeMode={FastImage.resizeMode.cover}
+        onLoadEnd={() => setIsImageLoaded(true)}
+      />
+    </TouchableOpacity>
+  );
+};
 
 const HemaJohn: FC = () => {
   const navigation = useNavigation();
@@ -42,21 +79,7 @@ const HemaJohn: FC = () => {
   };
 
   const renderImageItem = ({ item }: { item: { uri: string } }) => (
-    <TouchableOpacity
-      onPress={() => openModal(item)}
-      style={{
-        width: (screenWidth - 48) / 2,
-        margin: 8,
-        borderRadius: 10,
-        overflow: 'hidden',
-        backgroundColor: COLORS.TextInput,
-      }}>
-      <FastImage
-        source={{ uri: item.uri, priority: FastImage.priority.normal }}
-        style={{ width: '100%', height: 150 }}
-        resizeMode={FastImage.resizeMode.cover}
-      />
-    </TouchableOpacity>
+    <ImageCard uri={item.uri} onPress={openModal} />
   );
 
   return (

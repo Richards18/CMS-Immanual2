@@ -1,9 +1,9 @@
-import React, {FC} from 'react';
-import {View, Text, SafeAreaView, ScrollView} from 'react-native';
+import React, { FC } from 'react';
+import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {COLORS} from '../Constants/Colors';
+import { COLORS } from '../Constants/Colors';
 
-interface Props {}
+interface Props { }
 
 const WorshipOrders: FC<Props> = () => {
   return (
@@ -11,26 +11,28 @@ const WorshipOrders: FC<Props> = () => {
       style={{
         flex: 1,
         backgroundColor: COLORS.WorshipCards,
-        marginTop: 15,
+        marginTop: 20,
         borderRadius: 20,
       }}>
-      <ScrollView contentContainerStyle={{padding: 16}}>
+      <ScrollView contentContainerStyle={{ padding: 16 }}>
         {/* Header */}
-        <View style={{marginBottom: 15}}>
+        <View style={{ marginBottom: 15 }}>
           <Text
             style={{
               fontSize: 22,
               fontWeight: '900',
               color: COLORS.Black,
               marginBottom: 8,
+              textAlign: 'center'
             }}>
-            ஆராதனை ஒழுங்குகள்:
+            ஆராதனை ஒழுங்குகள்
           </Text>
           <Text
             style={{
               fontSize: 16,
               fontWeight: '400',
               color: COLORS.Black,
+              textAlign: 'center'
             }}>
             எங்களோடு ஆராதனையில் இணைவதற்கு அன்புடன் அழைக்கிறோம்.
           </Text>
@@ -42,17 +44,16 @@ const WorshipOrders: FC<Props> = () => {
             time: '5:00 AM',
           },
           {
-            title:
-              'ஞாயிறு ஆராதனை - மாதத்தின் முதலாம், நான்காம், ஐந்தாம் ஞாயிறு',
-            time: '9:00 - 11:00 AM',
+            title: 'ஞாயிறு ஆராதனை - மாதத்தின் முதலாம், நான்காம், ஐந்தாம் ஞாயிறு',
+            time: '9:00 AM - 11:00 AM',
           },
           {
             title: 'துதி ஆராதனை - மாதத்தின் இரண்டாம் ஞாயிறு',
-            time: '9:00 - 11:00 AM',
+            time: '9:00 AM - 11:00 AM',
           },
           {
             title: 'அப்பம் பிட்கும் ஆராதனை - மாதத்தின் மூன்றாம் ஞாயிறு',
-            time: '9:00 - 11:00 AM',
+            time: '9:00 AM - 11:00 AM',
           },
         ].map((item, index) => (
           <View
@@ -62,7 +63,7 @@ const WorshipOrders: FC<Props> = () => {
               borderRadius: 12,
               padding: 16,
               shadowColor: '#000',
-              shadowOffset: {width: 0, height: 2},
+              shadowOffset: { width: 0, height: 2 },
               shadowOpacity: 0.1,
               shadowRadius: 4,
               elevation: 3,
@@ -78,7 +79,7 @@ const WorshipOrders: FC<Props> = () => {
                 name="calendar"
                 size={26}
                 color={COLORS.PrimaryColor}
-                style={{marginRight: 10}}
+                style={{ marginRight: 10 }}
               />
               <Text
                 style={{
@@ -93,12 +94,12 @@ const WorshipOrders: FC<Props> = () => {
               </Text>
             </View>
 
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <MaterialCommunityIcons
                 name="clock-time-nine-outline"
                 size={26}
                 color={COLORS.PrimaryColor}
-                style={{marginRight: 10}}
+                style={{ marginRight: 10 }}
               />
               <Text
                 style={{

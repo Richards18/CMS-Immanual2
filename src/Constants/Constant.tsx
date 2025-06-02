@@ -20,7 +20,7 @@ export const GALLERY_IMAGES = {
     PASTOR_HOUSE_DEDICATION: 'https://cmsimmanuelchurch.com/images/Voliyar_Illam_Dedication/005-min.jpg',
     TEMPLE_TOWER_CEREMONY: 'https://cmsimmanuelchurch.com/images/Tower_Foundation_Cermony/DSC_3402-min.JPG',
     THIDAPPADUTHAL_SERVICE_2013: 'https://cmsimmanuelchurch.com/images/Thidapaduthal_2013/DSC_3085-min.JPG',
-    
+
 }
 
 export const WOMENS_FESTIVAL = {
@@ -95,7 +95,6 @@ export const ASANAM_2023 = {
     ASANAM_2023_17: 'https://cmsimmanuelchurch.com/images/%E0%AE%AA%E0%AE%BF%E0%AE%B0%E0%AE%A4%E0%AE%BF%E0%AE%B7%E0%AF%8D%E0%AE%9F%E0%AF%88_%E0%AE%AE%E0%AE%B1%E0%AF%8D%E0%AE%B1%E0%AF%81%E0%AE%AE%E0%AF%8D_%E0%AE%85%E0%AE%9A%E0%AE%A9_%E0%AE%AA%E0%AE%A3%E0%AF%8D%E0%AE%9F%E0%AE%BF%E0%AE%95%E0%AF%88_2023/DSC_5932.jpeg',
     ASANAM_2023_18: 'https://cmsimmanuelchurch.com/images/%E0%AE%AA%E0%AE%BF%E0%AE%B0%E0%AE%A4%E0%AE%BF%E0%AE%B7%E0%AF%8D%E0%AE%9F%E0%AF%88_%E0%AE%AE%E0%AE%B1%E0%AF%8D%E0%AE%B1%E0%AF%81%E0%AE%AE%E0%AF%8D_%E0%AE%85%E0%AE%9A%E0%AE%A9_%E0%AE%AA%E0%AE%A3%E0%AF%8D%E0%AE%9F%E0%AE%BF%E0%AE%95%E0%AF%88_2023/DSC_5935.jpeg',
     ASANAM_2023_19: 'https://cmsimmanuelchurch.com/images/%E0%AE%AA%E0%AE%BF%E0%AE%B0%E0%AE%A4%E0%AE%BF%E0%AE%B7%E0%AF%8D%E0%AE%9F%E0%AF%88_%E0%AE%AE%E0%AE%B1%E0%AF%8D%E0%AE%B1%E0%AF%81%E0%AE%AE%E0%AF%8D_%E0%AE%85%E0%AE%9A%E0%AE%A9_%E0%AE%AA%E0%AE%A3%E0%AF%8D%E0%AE%9F%E0%AE%BF%E0%AE%95%E0%AF%88_2023/DSC_5943.jpeg',
-    ASANAM_2023_20: 'https://cmsimmanuelchurch.com/images/%E0%AE%AA%E0%AE%BF%E0%AE%B0%E0%AE%A4%E0%AE%BF%E0%AE%B7%E0%AF%8D%E0%AE%9F%E0%AF%88_%E0%AE%AE%E0%AE%B1%E0%AF%8D%E0%AE%B1%E0%AF%81%E0%AE%AE%E0%AF%8D_%E0%AE%85%E0%AE%9A%E0%AE%A9_%E0%AE%AA%E0%AE%A3%E0%AF%8D%E0%AE%9F%E0%AE%BF%E0%AE%95%E0%AF%88_2023/DSC_5951.jpeg'
 }
 
 export const DIAMOND_JUBILEE = {
@@ -301,7 +300,7 @@ export const NEW_TEMPLE_DEDICATION = {
     NEW_TEMPLE_DEDICATION1: 'https://cmsimmanuelchurch.com/images/New_Church_Opening_Cermony/DSC_3406.JPG',
     NEW_TEMPLE_DEDICATION2: 'https://cmsimmanuelchurch.com/images/New_Church_Opening_Cermony/DSC_3407.JPG',
     NEW_TEMPLE_DEDICATION3: 'https://cmsimmanuelchurch.com/images/New_Church_Opening_Cermony/DSC_3408.JPG',
-    NEW_TEMPLE_DEDICATION4: 'https://cmsimmanuelchurch.com/images/New_Church_Opening_Cermony/DSC_3406.JPG',
+    NEW_TEMPLE_DEDICATION4: 'https://cmsimmanuelchurch.com/images/New_Church_Opening_Cermony/DSC_3409.JPG',
     NEW_TEMPLE_DEDICATION5: 'https://cmsimmanuelchurch.com/images/New_Church_Opening_Cermony/DSC_3411.JPG',
     NEW_TEMPLE_DEDICATION6: 'https://cmsimmanuelchurch.com/images/New_Church_Opening_Cermony/DSC_3412.JPG',
     NEW_TEMPLE_DEDICATION7: 'https://cmsimmanuelchurch.com/images/New_Church_Opening_Cermony/DSC_3414.JPG',
